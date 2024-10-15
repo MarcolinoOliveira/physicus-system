@@ -1,10 +1,13 @@
-import { InfoArea } from "@/components/InfoArea";
-import TableUsers from "@/components/TableUsers";
+import { OnlyStudent } from "@/components/studentPage/OnlyStudent";
 import { ToggleTheme } from "@/components/ToggleTheme";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+type onlyStudentProps = {
+  params: { id: string }
+}
+
+export default function onlyStudent({ params }: onlyStudentProps) {
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -15,15 +18,15 @@ export default function Home() {
           </Link>
         </div>
         <div className="flex w-1/2 justify-center items-center">
-          <InfoArea />
+
         </div>
         <div className="flex w-1/4 justify-end items-center">
           <ToggleTheme />
         </div>
       </div>
       <div>
-        <TableUsers />
+        <OnlyStudent id={params.id} />
       </div>
     </div>
-  );
+  )
 }
