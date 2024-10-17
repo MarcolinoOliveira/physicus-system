@@ -36,13 +36,15 @@ export function InfoArea() {
   }
 
   useEffect(() => {
+    if (!students) return
+
     const value = filterPaymentByMonth(paymentMonths, currentMonth)
     const haReceive = filterPaymentByMonthToReceive(students, currentMonth)
 
     setTotalvalueMonth(value)
     setTotalHaReceiveMonth(haReceive)
 
-  }, [currentMonth, paymentMonths])
+  }, [currentMonth, paymentMonths, students])
 
   return (
     <div className="flex flex-col items-center">

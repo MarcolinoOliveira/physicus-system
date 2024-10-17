@@ -1,7 +1,7 @@
 'use client'
 
-import { getMonthsPayment, getOnlyStudent, getOnlyStudentPayments } from "@/app/firebase/getDocs"
-import { dataStudentPaymentProps, paymentMonthsProps } from "@/app/types/globalTypes"
+import { getOnlyStudent, getOnlyStudentPayments } from "@/app/firebase/getDocs"
+import { dataStudentPaymentProps } from "@/app/types/globalTypes"
 import { useEffect, useState } from "react"
 import { PaymentClientModal } from "../modals/PaymentModal"
 import { DocumentData } from "firebase/firestore"
@@ -16,13 +16,8 @@ type OnlyStudentProps = {
 
 export function OnlyStudent({ id }: OnlyStudentProps) {
 
-  const [paymentMonths, setPaymentMonths] = useState<paymentMonthsProps[]>([])
   const [student, setStudent] = useState<DocumentData>()
   const [studentPayments, setStudentPayments] = useState<dataStudentPaymentProps[]>([])
-
-  useEffect(() => {
-    getMonthsPayment({ setPaymentMonths })
-  }, [])
 
   useEffect(() => {
     getOnlyStudent({ id, setStudent })
@@ -73,7 +68,7 @@ export function OnlyStudent({ id }: OnlyStudentProps) {
               <p className="font-semibold">Valor: </p>
             </div>
             <div className="flex gap-2">
-              <PaymentClientModal id={id} maturity={student?.maturity} countId={paymentMonths?.length + 1} />
+              <PaymentClientModal id={id} maturity={student?.maturity} />
             </div>
           </div>
         </div>

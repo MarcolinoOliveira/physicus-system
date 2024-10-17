@@ -14,7 +14,6 @@ import { paymentProps } from "@/app/types/globalTypes"
 type PaymentCLient = {
   id: string
   maturity: string
-  countId: number
 }
 
 type paymentMethodProps = {
@@ -23,7 +22,7 @@ type paymentMethodProps = {
   cartao: boolean
 }
 
-export function PaymentClientModal({ id, maturity, countId }: PaymentCLient) {
+export function PaymentClientModal({ id, maturity }: PaymentCLient) {
 
   const { toast } = useToast()
   const [student, setStudent] = useState<paymentProps>({
@@ -53,7 +52,7 @@ export function PaymentClientModal({ id, maturity, countId }: PaymentCLient) {
   }
 
   const addPayment = () => {
-    addPaymentUser(id, student, maturity, countId)
+    addPaymentUser(id, student, maturity)
     toast({
       variant: "default",
       title: "Pagamento Adicionado com sucesso.",

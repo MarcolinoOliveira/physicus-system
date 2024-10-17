@@ -56,8 +56,9 @@ export function ChangePaymentModal({ id, idSec }: PaymentCLient) {
     updatePaymentManual(id, idSec, student)
     toast({
       variant: "default",
-      title: "dados Alterados com sucesso.",
+      title: "Dados Alterados com sucesso.",
       duration: 3000,
+      className: 'border border-green-500 text-green-500'
     })
     setStudent({ value: '', datePayment: '', paymentMethod: '' })
     setPaymentMethod({ pix: false, dinheiro: false, cartao: false })

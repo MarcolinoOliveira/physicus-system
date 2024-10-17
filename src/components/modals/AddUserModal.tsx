@@ -29,8 +29,9 @@ export function AddClient() {
     if (student.name === '') {
       toast({
         variant: "default",
-        title: "Nome invalido.",
+        title: 'Nome Inválido',
         duration: 3000,
+        className: 'border border-red-500 text-red-500'
       })
     } else {
       addUser(student)
@@ -38,6 +39,7 @@ export function AddClient() {
         variant: "default",
         title: "Cliente Adicionado com sucesso.",
         duration: 3000,
+        className: 'border border-green-500 text-green-500'
       })
       setStudent({ id: '', name: '', telephone: '', maturity: '', status: '', monthly: '' })
     }

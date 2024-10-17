@@ -29,13 +29,23 @@ export function ChangeUserData({ student }: changeUserDataProps) {
   })
 
   const changeData = () => {
-    updateUserManual(changeUser)
-    toast({
-      variant: "default",
-      title: "Alterações feitas com sucesso.",
-      duration: 3000,
-    })
-    setChangeUser({ id: '', name: '', telephone: '', maturity: '', status: '', monthly: '' })
+    if (changeUser?.name === '') {
+      toast({
+        variant: "default",
+        title: "Nome inválido.",
+        duration: 3000,
+        className: 'border border-red-500 text-red-500'
+      })
+    } else {
+      updateUserManual(changeUser)
+      toast({
+        variant: "default",
+        title: "Alterações feitas com sucesso.",
+        duration: 3000,
+        className: 'border border-green-500 text-green-500'
+      })
+      setChangeUser({ id: '', name: '', telephone: '', maturity: '', status: '', monthly: '' })
+    }
   }
 
   const cancelarChangeData = () => {

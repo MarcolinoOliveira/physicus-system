@@ -29,13 +29,14 @@ export function DeletePaymentModal({ id, idSec, maturity, currentMaturity }: Ale
         variant: "default",
         title: "Mensalidade excluido com sucesso.",
         duration: 3000,
+        className: 'border border-green-500 text-green-500'
       })
-
     } else {
       toast({
         variant: "destructive",
         title: "Exclua se forma decrescente.",
         duration: 3000,
+        className: 'border border-red-500 text-red-500'
       })
     }
   }

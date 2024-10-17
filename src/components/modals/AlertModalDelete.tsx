@@ -19,6 +19,7 @@ export function AlertModalDelete({ id }: AlertModalDeleteProps) {
       variant: "default",
       title: "Cliente excluido com sucesso.",
       duration: 3000,
+      className: 'border border-green-500 text-green-500'
     })
   }
 
