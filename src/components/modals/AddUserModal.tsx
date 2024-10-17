@@ -59,7 +59,7 @@ export function AddClient() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader className="flex items-center justify-center">
-          <DialogTitle>Novo student</DialogTitle>
+          <DialogTitle>Novo Aluno</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-2 items-center gap-4">
