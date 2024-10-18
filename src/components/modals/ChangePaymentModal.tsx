@@ -1,20 +1,22 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose, } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import MaskedCurrencyInput from "../masks/MaskCurrencyInput"
 import { Checkbox } from "../ui/checkbox"
 import { paymentProps } from "@/app/types/globalTypes"
 import { updatePaymentManual } from "@/app/firebase/updateDocs"
-import { PencilLine } from 'lucide-react';
+
 
 type PaymentCLient = {
   id: string
   idSec: string
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
 type paymentMethodProps = {
@@ -23,9 +25,10 @@ type paymentMethodProps = {
   cartao: boolean
 }
 
-export function ChangePaymentModal({ id, idSec }: PaymentCLient) {
+export function ChangePaymentModal({ id, idSec, open, setOpen }: PaymentCLient) {
 
   const { toast } = useToast()
+
   const [student, setStudent] = useState<paymentProps>({
     value: '',
     datePayment: '',
@@ -62,20 +65,17 @@ export function ChangePaymentModal({ id, idSec }: PaymentCLient) {
     })
     setStudent({ value: '', datePayment: '', paymentMethod: '' })
     setPaymentMethod({ pix: false, dinheiro: false, cartao: false })
+    setOpen(prev => !prev)
   }
 
   const cancelarPayment = () => {
     setStudent({ value: '', datePayment: '', paymentMethod: '' })
     setPaymentMethod({ pix: false, dinheiro: false, cartao: false })
+    setOpen(prev => !prev)
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant='outline' size='icon'>
-          <PencilLine className="w-6 h-6" />
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={() => setOpen(prev => !prev)}>
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader className="flex items-center justify-center">
           <DialogTitle>Alterar mensalidade</DialogTitle>
@@ -124,13 +124,9 @@ export function ChangePaymentModal({ id, idSec }: PaymentCLient) {
             </div>
           </div>
         </div>
-        <DialogFooter className="flex gap-3">
-          <DialogClose>
-            <div className="w-full flex gap-2">
-              <Button type="button" variant='outline' onClick={cancelarPayment}>Cancelar</Button>
-              <Button type="submit" onClick={() => addPayment()}>Salvar</Button>
-            </div>
-          </DialogClose>
+        <DialogFooter className="flex gap-2 justify-end">
+          <Button type="button" variant='outline' onClick={cancelarPayment}>Cancelar</Button>
+          <Button type="submit" onClick={() => addPayment()}>Salvar</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

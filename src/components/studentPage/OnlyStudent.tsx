@@ -6,8 +6,7 @@ import { useEffect, useState } from "react"
 import { PaymentClientModal } from "../modals/PaymentModal"
 import { DocumentData } from "firebase/firestore"
 import { formatCurrentMonth } from "@/lib/dateFormatter"
-import { ChangePaymentModal } from "../modals/ChangePaymentModal"
-import { DeletePaymentModal } from "../modals/DeletePaymentModal"
+import { SubMenuPayment } from "../subMenuPayment"
 
 
 type OnlyStudentProps = {
@@ -34,42 +33,32 @@ export function OnlyStudent({ id }: OnlyStudentProps) {
       </div>
       <div className="flex gap-3 overflow-y-auto flex-wrap h-[65vh]">
         {studentPayments?.map((e, key) => (
-          <div key={key} className="flex flex-col px-6 py-4 rounded-xl border border-slate-400 w-[307px] h-[215px]">
-            <div className="flex w-full items-center justify-center py-2 border-b">
+          <div key={key} className="flex flex-col px-6 py-4 rounded-xl border border-slate-400 w-[307px] h-[225px]">
+            <div className="flex w-full items-center justify-between py-3 border-b">
+              <p></p>
               <p className="font-semibold">{formatCurrentMonth(e.maturity)}</p>
+              <SubMenuPayment id={id} idSec={e.id} maturity={e.maturity} currentMaturity={student?.maturity} />
             </div>
             <div className="flex flex-col justify-start w-full gap-1 pt-4">
               <p className="font-semibold">Vencimento: {e.maturity.split('-').reverse().join('/')}</p>
               <p className="font-semibold">Pagamento: {e.datePayment.split('-').reverse().join('/')}</p>
               <p className="font-semibold">Forma do pagamento: {e.paymentMethod}</p>
             </div>
-            <div className="flex justify-between items-center pt-2">
-              <div>
-                <p className="font-semibold">Valor: {e.valuePayment}</p>
-              </div>
-              <div className="flex gap-2">
-                <ChangePaymentModal id={id} idSec={e.id} />
-                <DeletePaymentModal id={id} idSec={e.id} maturity={e.maturity} currentMaturity={student?.maturity} />
-              </div>
+            <div className="flex justify-start items-center pt-2">
+              <p className="font-semibold">Valor: {e.valuePayment}</p>
             </div>
           </div>
         ))}
-        <div className="flex flex-col px-6 py-4 rounded-xl border border-slate-400 w-[307px] h-[215px]">
-          <div className="flex w-full items-center justify-center py-2 border-b">
+        <div className="flex flex-col px-6 py-4 rounded-xl border border-slate-400 w-[307px] h-[225px]">
+          <div className="flex w-full items-center justify-center py-5 border-b">
             <p className="font-semibold">{formatCurrentMonth(student?.maturity)}</p>
           </div>
           <div className="flex flex-col justify-start w-full gap-1 pt-4">
             <p className="font-semibold">Vencimento: {student?.maturity.split('-').reverse().join('/')}</p>
             <p className="font-semibold">Pagamento: __/__/____</p>
-            <p className="font-semibold">Forma do pagamento:</p>
           </div>
-          <div className="flex justify-between items-center pt-2">
-            <div>
-              <p className="font-semibold">Valor: </p>
-            </div>
-            <div className="flex gap-2">
-              <PaymentClientModal id={id} maturity={student?.maturity} />
-            </div>
+          <div className="flex items-center pt-4">
+            <PaymentClientModal id={id} maturity={student?.maturity} />
           </div>
         </div>
       </div>

@@ -70,7 +70,7 @@ export function PaymentClientModal({ id, maturity }: PaymentCLient) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default">Receber</Button>
+        <Button variant="default" className="w-full">Receber mensalidade</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader className="flex items-center justify-center">

@@ -11,6 +11,11 @@ import AutoSizer from "react-virtualized-auto-sizer"
 import { FixedSizeList } from "react-window"
 import { Button } from "./ui/button"
 import Link from "next/link"
+import { useAuthState } from "react-firebase-hooks/auth"
+import { auth } from "@/lib/firebase"
+import { useRouter } from "next/navigation"
+import { CircleDollarSign } from 'lucide-react';
+import { toast } from "@/hooks/use-toast"
 
 
 type rowListUsersProps = {
@@ -22,6 +27,10 @@ export default function TableUsers() {
 
   const [students, setStudents] = useState<userProps[]>([])
   const [search, setSearch] = useState<string>("")
+  const [user] = useAuthState(auth)
+  const router = useRouter()
+
+  const admin = 'bruno@physicus.com'
 
   useEffect(() => {
     getDocs({ setStudents })
@@ -29,6 +38,19 @@ export default function TableUsers() {
 
   const searchstudents = students?.filter(aluno => aluno.name.toLowerCase().includes(search.toLowerCase())
     || aluno.status?.toLowerCase().includes(search.toLowerCase()))
+
+  const handleRouter = () => {
+    if (user?.email === admin) {
+      router.push('financeiro')
+    } else {
+      toast({
+        variant: "default",
+        title: 'Usuário sem acesso',
+        duration: 3000,
+        className: 'border border-red-500 text-red-500'
+      })
+    }
+  }
 
   const rowListUsers = ({ index, style }: rowListUsersProps) => {
 
@@ -69,12 +91,18 @@ export default function TableUsers() {
   }
 
   return (
-    <div className="w-auto rounded-lg h-[51vh]">
+    <div className="w-auto rounded-lg h-[60vh]">
       <div className="flex justify-between items-center py-5">
         <form className="flex items-center gap-2">
           <Input placeholder="Pesquisar.." className="w-auto text-[15px]" onChange={(e) => setSearch(e.target.value)} />
         </form>
-        <AddClient />
+        <div className="flex gap-2">
+          <Button onClick={handleRouter} variant="default" className="flex gap-2 font-semibold">
+            <CircleDollarSign />
+            Finançeiro
+          </Button>
+          <AddClient />
+        </div>
       </div>
       <div className="flex w-full h-auto bg-primary rounded-t-lg justify-between p-3">
         <div className="flex flex-1 justify-between items-center mr-3">
