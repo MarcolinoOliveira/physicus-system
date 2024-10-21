@@ -40,12 +40,22 @@ export function OnlyStudent({ id }: OnlyStudentProps) {
               <SubMenuPayment id={id} idSec={e.id} maturity={e.maturity} currentMaturity={student?.maturity} />
             </div>
             <div className="flex flex-col justify-start w-full gap-1 pt-4">
-              <p className="font-semibold">Vencimento: {e.maturity.split('-').reverse().join('/')}</p>
-              <p className="font-semibold">Pagamento: {e.datePayment.split('-').reverse().join('/')}</p>
-              <p className="font-semibold">Forma do pagamento: {e.paymentMethod}</p>
-            </div>
-            <div className="flex justify-start items-center pt-2">
-              <p className="font-semibold">Valor: {e.valuePayment}</p>
+              <div className="flex justify-between">
+                <p className="font-semibold">Vencimento:</p>
+                <p className="font-bold">{e.maturity.split('-').reverse().join('/')}</p>
+              </div>
+              <div className="flex justify-between">
+                <p className="font-semibold">Pagamento: </p>
+                <p className="font-bold">{e.datePayment.split('-').reverse().join('/')}</p>
+              </div>
+              <div className="flex justify-between">
+                <p className="font-semibold">Forma do pagamento:</p>
+                <p className="font-bold">{e.paymentMethod}</p>
+              </div>
+              <div className="flex justify-between">
+                <p className="font-semibold">Valor:</p>
+                <p className="font-bold">{e.valuePayment}</p>
+              </div>
             </div>
           </div>
         ))}
@@ -54,8 +64,14 @@ export function OnlyStudent({ id }: OnlyStudentProps) {
             <p className="font-semibold">{formatCurrentMonth(student?.maturity)}</p>
           </div>
           <div className="flex flex-col justify-start w-full gap-1 pt-4">
-            <p className="font-semibold">Vencimento: {student?.maturity.split('-').reverse().join('/')}</p>
-            <p className="font-semibold">Pagamento: __/__/____</p>
+            <div className="flex justify-between">
+              <p className="font-semibold">Vencimento:</p>
+              <p className="font-bold">{student?.maturity.split('-').reverse().join('/')}</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="font-semibold">Pagamento:</p>
+              <p className="font-semibold">__/__/____</p>
+            </div>
           </div>
           <div className="flex items-center pt-4">
             <PaymentClientModal id={id} maturity={student?.maturity} />

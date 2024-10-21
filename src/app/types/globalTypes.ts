@@ -26,3 +26,10 @@ export type paymentProps = {
   datePayment: string
   paymentMethod: string
 }
+
+export type expenseProps = {
+  id: string,
+  name: string,
+  value: string,
+  date: string
+}

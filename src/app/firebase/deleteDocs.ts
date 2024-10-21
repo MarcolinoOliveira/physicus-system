@@ -24,3 +24,11 @@ export async function deletePayment(id: string, idSec: string, maturity: string)
     await updateDoc(ref, payload)
   }
 }
+
+export async function deleteExpense(id: string) {
+  if (id) {
+    const ref = doc(db, 'Despesas', id)
+
+    await deleteDoc(ref)
+  }
+}

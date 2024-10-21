@@ -1,4 +1,4 @@
-import { paymentMonthsProps, userProps } from "@/app/types/globalTypes";
+import { expenseProps, paymentMonthsProps, userProps } from "@/app/types/globalTypes";
 
 
 export const dateFormatterPTBR = (date: Date, locale = 'pt-BR') => {
@@ -50,16 +50,11 @@ export const getPaymentMonth = (date: string) => {
   return `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate() + 1}`;
 }
 
-export const filterPaymentByMonthToReceive = (aluno: userProps[], date: string) => {
-  const [year, month] = date?.split('-')
+export const TotalRevenueEnterprise = (student: userProps[]) => {
   let total = 0
 
-  for (let i = 0; i < aluno?.length; i++) {
-    const newDate = new Date(aluno[i].maturity)
-
-    if (newDate.getFullYear() === parseInt(year) && (newDate.getMonth() + 1) === parseInt(month)) {
-      total += parseFloat(aluno[i].monthly.replace(/R\$\s?|/g, '').replace(',', '.'))
-    }
+  for (let i = 0; i < student?.length; i++) {
+    total += parseFloat(student[i].monthly.replace(/R\$\s?|/g, '').replace(',', '.'))
   }
 
   return total
@@ -78,6 +73,36 @@ export const filterPaymentByMonth = (payments: paymentMonthsProps[], date: strin
   }
 
   return total
+}
+
+export const filterExpenseByMonth = (list: expenseProps[], date: string) => {
+  const [year, month] = date?.split('-')
+  let total = 0
+
+  for (let i = 0; i < list?.length; i++) {
+    const newDate = new Date(list[i].date)
+
+    if (newDate.getFullYear() === parseInt(year) && (newDate.getMonth() + 1) === parseInt(month)) {
+      total += parseFloat(list[i].value.replace(/R\$\s?|/g, '').replace(',', '.'))
+    }
+  }
+
+  return total
+}
+
+export const filterListExpenseByMonth = (list: expenseProps[], date: string) => {
+  let newList: expenseProps[] = []
+  const [year, month] = date.split('-')
+
+  for (let i in list) {
+    const newDate = new Date(list[i].date)
+
+    if (newDate.getFullYear() === parseInt(year) && (newDate.getMonth() + 1) === parseInt(month)) {
+      newList.push(list[i])
+    }
+  }
+
+  return newList
 }
 
 export const formatCurrentMonth = (currentMonth: string) => {

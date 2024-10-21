@@ -1,7 +1,7 @@
 import { getNewMaturity } from "@/lib/dateFormatter";
 import { db } from "@/lib/firebase";
 import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
-import { paymentProps, userProps } from "../types/globalTypes";
+import { expenseProps, paymentProps, userProps } from "../types/globalTypes";
 
 export async function addUser(student: userProps) {
   if (student != undefined) {
@@ -49,4 +49,18 @@ export async function addPaymentUser(id: string, student: paymentProps, maturity
     await setDoc(collectionRef, payloadMonth)
     await setDoc(docPaymentRef, payloadPayment)
   }
+}
+
+export async function addExpense(expense: expenseProps) {
+  if (!expense) return
+
+  const ref = collection(db, 'Despesas')
+
+  const payload = {
+    name: expense.name,
+    value: expense.value,
+    date: expense.date
+  }
+
+  await addDoc(ref, payload)
 }

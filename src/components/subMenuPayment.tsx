@@ -6,8 +6,8 @@ import { ChangePaymentModal } from './modals/ChangePaymentModal';
 import { DeletePaymentModal } from './modals/DeletePaymentModal';
 import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { PencilLine } from 'lucide-react';
-import { SquareX } from 'lucide-react';
+import { PencilLine, SquareX } from 'lucide-react';
+
 
 type AlertModalDeleteProps = {
   id: string

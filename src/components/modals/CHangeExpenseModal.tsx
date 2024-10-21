@@ -1,36 +1,33 @@
 'use client'
 
-import { userProps } from "@/app/types/globalTypes"
+import { expenseProps } from "@/app/types/globalTypes"
 import { useState } from "react"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
 import { Button } from "../ui/button"
 import { Label } from "../ui/label"
 import { Input } from "../ui/input"
-import { updateUserManual } from "@/app/firebase/updateDocs"
+import { updateExpense } from "@/app/firebase/updateDocs"
 import { useToast } from "@/hooks/use-toast"
 import MaskedCurrencyInput from "../masks/MaskCurrencyInput"
-import MaskedTelephoneInput from "../masks/MaskTelephoneInput"
 import { PencilLine } from 'lucide-react';
 
-type changeUserDataProps = {
-  student: userProps
+type ChangeExpenseModalProps = {
+  expense: expenseProps
 }
 
-export function ChangeUserData({ student }: changeUserDataProps) {
+export function ChangeExpenseModal({ expense }: ChangeExpenseModalProps) {
   const { toast } = useToast()
 
   const [open, setOpen] = useState<boolean>(false)
-  const [changeUser, setChangeUser] = useState<userProps>({
-    id: student.id,
-    name: student.name,
-    maturity: student.maturity,
-    monthly: student.monthly,
-    status: student.status,
-    telephone: student.telephone
+  const [changeExpense, setChangeExpense] = useState<expenseProps>({
+    id: expense.id,
+    name: expense.name,
+    value: expense.value,
+    date: expense.date
   })
 
   const changeData = () => {
-    if (changeUser?.name === '') {
+    if (changeExpense?.name === '') {
       toast({
         variant: "default",
         title: "Nome inválido.",
@@ -38,7 +35,7 @@ export function ChangeUserData({ student }: changeUserDataProps) {
         className: 'border border-red-500 text-red-500'
       })
     } else {
-      updateUserManual(changeUser)
+      updateExpense(changeExpense)
       toast({
         variant: "default",
         title: "Alterações feitas com sucesso.",
@@ -57,42 +54,36 @@ export function ChangeUserData({ student }: changeUserDataProps) {
       <Dialog open={open} onOpenChange={() => setOpen(prev => !prev)}>
         <DialogContent className="sm:max-w-[400px]">
           <DialogHeader className="flex justify-center items-center">
-            <DialogTitle>Alterar dados</DialogTitle>
+            <DialogTitle>Alterar Despesa</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-2 items-center gap-4">
               <Label htmlFor="name" className="text-left font-semibold">
-                Nome Completo
+                Título
               </Label>
               <Input
                 id="name"
                 type="string"
-                defaultValue={changeUser.name}
-                onChange={(e) => setChangeUser({ ...changeUser, name: e.target.value })}
+                defaultValue={changeExpense.name}
+                onChange={(e) => setChangeExpense({ ...changeExpense, name: e.target.value })}
                 className="col-span-3"
               />
             </div>
             <div className="grid grid-cols-2 items-center gap-4">
               <Label htmlFor="username" className="text-left font-semibold">
-                Número do Celular
+                Valor
               </Label>
-              <MaskedTelephoneInput value={changeUser.telephone} onChange={(e) => setChangeUser({ ...student, telephone: e })} />
+              <MaskedCurrencyInput value={changeExpense.value} onChange={(e) => setChangeExpense({ ...changeExpense, value: e })} />
             </div>
             <div className="grid grid-cols-2 items-center gap-4">
               <Label htmlFor="username" className="text-left font-semibold">
-                Mensalidade
-              </Label>
-              <MaskedCurrencyInput value={changeUser.monthly} onChange={(e) => setChangeUser({ ...student, monthly: e })} />
-            </div>
-            <div className="grid grid-cols-2 items-center gap-4">
-              <Label htmlFor="username" className="text-left font-semibold">
-                Vencimento
+                Data
               </Label>
               <Input
                 id="data"
                 type="Date"
-                defaultValue={changeUser.maturity}
-                onChange={(e) => setChangeUser({ ...changeUser, maturity: e.target.value })}
+                defaultValue={changeExpense.date}
+                onChange={(e) => setChangeExpense({ ...changeExpense, date: e.target.value })}
                 className="col-span-3"
               />
             </div>

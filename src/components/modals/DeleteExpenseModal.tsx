@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteUser } from "@/app/firebase/deleteDocs"
+import { deleteExpense } from "@/app/firebase/deleteDocs"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
 import { SquareX } from 'lucide-react';
@@ -10,14 +10,14 @@ type AlertModalDeleteProps = {
   id: string
 }
 
-export function AlertModalDelete({ id }: AlertModalDeleteProps) {
+export function DeleteExpenseModal({ id }: AlertModalDeleteProps) {
   const { toast } = useToast()
 
-  const handleDeleteUser = () => {
-    deleteUser(id)
+  const handleDelete = () => {
+    deleteExpense(id)
     toast({
       variant: "default",
-      title: "Cliente excluido com sucesso.",
+      title: "Despesa excluida com sucesso.",
       duration: 3000,
       className: 'border border-green-500 text-green-500'
     })
@@ -34,13 +34,13 @@ export function AlertModalDelete({ id }: AlertModalDeleteProps) {
         <AlertDialogHeader>
           <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
           <AlertDialogDescription>
-            Esta ação não pode ser desfeita. Isso excluirá permanentemente seu
-            aluno e removera seus dados de nossos servidores.
+            Esta ação não pode ser desfeita. Isso excluirá permanentemente sua
+            despesa e removera seus dados de nossos servidores.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeleteUser} >Continue</AlertDialogAction>
+          <AlertDialogAction onClick={handleDelete} >Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

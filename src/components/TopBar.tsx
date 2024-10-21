@@ -1,18 +1,22 @@
 'use client'
 
+import { getListExpense, getMonthsPayment, getStudents } from "@/app/firebase/getDocs";
 import { SignIn } from "@/components/signIn/SignIn";
 import { SignUp } from "@/components/signIn/signUp";
 import { ToggleTheme } from "@/components/ToggleTheme";
 import { Button } from "@/components/ui/button";
+import useStudents from "@/hooks/useStudents";
 import { auth } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function TopBar() {
 
+  const { setStudents, setPayments, setExpenses } = useStudents()
   const router = useRouter()
   const [user] = useAuthState(auth)
 
@@ -20,6 +24,13 @@ export default function TopBar() {
     signOut(auth)
     router.push('/')
   }
+
+  useEffect(() => {
+    getStudents({ setStudents })
+    getMonthsPayment({ setPayments })
+    getListExpense(setExpenses)
+  }, [])
+
   return (
     <div className="flex max-w-7xl mx-auto justify-between h-auto py-5">
       <div className="flex w-1/6 justify-start items-center">

@@ -1,10 +1,8 @@
 'use client'
 
-import { CSSProperties, useEffect, useState } from "react"
+import { CSSProperties, useState } from "react"
 import { Input } from "./ui/input"
 import { AddClient } from "./modals/AddUserModal"
-import { getDocs } from "@/app/firebase/getDocs"
-import { userProps } from "@/app/types/globalTypes"
 import { ChangeUserData } from "./modals/ChangeUserDataModal"
 import { AlertModalDelete } from "./modals/AlertModalDelete"
 import AutoSizer from "react-virtualized-auto-sizer"
@@ -16,6 +14,7 @@ import { auth } from "@/lib/firebase"
 import { useRouter } from "next/navigation"
 import { CircleDollarSign } from 'lucide-react';
 import { toast } from "@/hooks/use-toast"
+import useStudents from "@/hooks/useStudents"
 
 
 type rowListUsersProps = {
@@ -25,16 +24,12 @@ type rowListUsersProps = {
 
 export default function TableUsers() {
 
-  const [students, setStudents] = useState<userProps[]>([])
+  const { students } = useStudents()
   const [search, setSearch] = useState<string>("")
   const [user] = useAuthState(auth)
   const router = useRouter()
 
   const admin = 'bruno@physicus.com'
-
-  useEffect(() => {
-    getDocs({ setStudents })
-  }, [])
 
   const searchstudents = students?.filter(aluno => aluno.name.toLowerCase().includes(search.toLowerCase())
     || aluno.status?.toLowerCase().includes(search.toLowerCase()))

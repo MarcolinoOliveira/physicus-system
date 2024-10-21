@@ -1,6 +1,6 @@
 import { db } from "@/lib/firebase";
 import { doc, updateDoc } from "firebase/firestore";
-import { paymentProps, userProps } from "../types/globalTypes";
+import { expenseProps, paymentProps, userProps } from "../types/globalTypes";
 
 
 export async function updateUserManual(student: userProps) {
@@ -31,5 +31,19 @@ export async function updatePaymentManual(id: string, idSec: string, student: pa
 
     await updateDoc(docRef, payload)
     await updateDoc(monthsRef, payload)
+  }
+}
+
+export async function updateExpense(expense: expenseProps) {
+  if (expense) {
+    const docRef = doc(db, 'Despesas', expense.id)
+
+    const payload = {
+      name: expense.name,
+      value: expense.value,
+      date: expense.date
+    }
+
+    await updateDoc(docRef, payload)
   }
 }
