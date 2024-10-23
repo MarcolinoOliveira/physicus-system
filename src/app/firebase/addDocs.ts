@@ -1,4 +1,4 @@
-import { getNewMaturity } from "@/lib/dateFormatter";
+import { formatIdPaymentMonth, getNewMaturity } from "@/lib/dateFormatter";
 import { db } from "@/lib/firebase";
 import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { expenseProps, paymentProps, userProps } from "../types/globalTypes";
@@ -17,15 +17,19 @@ export async function addUser(student: userProps) {
   }
 }
 
-export async function addPaymentUser(id: string, student: paymentProps, maturity: string) {
+export async function addPaymentUser(
+  id: string,
+  idSec: string,
+  student: paymentProps,
+  maturity: string,
+  totalValue: number
+) {
   if (id != undefined) {
-
     const docRef = doc(db, 'Alunos', id)
-    const idSec = Math.random()
-    const collectionRef = doc(db, `Alunos/${id}/Meses/`, idSec.toString())
-    const docPaymentRef = doc(db, 'Pagamentos', idSec.toString())
+    const collectionRef = collection(db, `Alunos/${id}/Meses/`)
 
     const newMaturity = getNewMaturity(maturity)
+    const newTotalValue = (totalValue) + parseFloat(student.value?.replace(/R\$\s?|/g, '').replace(',', '.'))
 
     const payload = {
       maturity: newMaturity.split('/').reverse().join('-'),
@@ -39,15 +43,21 @@ export async function addPaymentUser(id: string, student: paymentProps, maturity
     }
 
     const payloadPayment = {
-      datePayment: student.datePayment,
-      maturity: maturity,
-      valuePayment: student.value,
-      paymentMethod: student.paymentMethod
+      dateMonth: student.datePayment,
+      totalValue: newTotalValue,
     }
 
     await updateDoc(docRef, payload)
-    await setDoc(collectionRef, payloadMonth)
-    await setDoc(docPaymentRef, payloadPayment)
+    await addDoc(collectionRef, payloadMonth)
+
+    if (idSec === '') {
+      const id = formatIdPaymentMonth(student.datePayment)
+      const refPayment = doc(db, 'Pagamentos', id)
+      await setDoc(refPayment, payloadPayment)
+    } else {
+      const docUpdatePayment = doc(db, 'Pagamentos', idSec)
+      await updateDoc(docUpdatePayment, payloadPayment)
+    }
   }
 }
 

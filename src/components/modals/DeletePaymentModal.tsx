@@ -3,19 +3,37 @@
 import { deletePayment } from "@/app/firebase/deleteDocs"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
-import { Dispatch, SetStateAction } from "react";
+import useStudents from "@/hooks/useStudents";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type AlertModalDeleteProps = {
   id: string
   idSec: string
   maturity: string
+  datePayment: string
+  value: string
   currentMaturity: string
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export function DeletePaymentModal({ id, idSec, maturity, currentMaturity, open, setOpen }: AlertModalDeleteProps) {
+export function DeletePaymentModal({ id, idSec, maturity, datePayment, value, currentMaturity, open, setOpen }: AlertModalDeleteProps) {
   const { toast } = useToast()
+  const { payments } = useStudents()
+  const [totalValue, setTotalValue] = useState<number>(0)
+  const [idPayment, setIdPayment] = useState<string>('')
+
+  useEffect(() => {
+    const [year, month] = datePayment.split('-')
+
+    for (let i = 0; i < payments.length; i++) {
+      const [yearPayment, monthPayment] = payments[i].id?.split('-')
+      if (year === yearPayment && month === monthPayment) {
+        setTotalValue(payments[i]?.totalValue)
+        setIdPayment(payments[i]?.id)
+      }
+    }
+  }, [open])
 
   const handleDeleteUser = () => {
     const [year, month] = maturity.split('-')
@@ -25,7 +43,7 @@ export function DeletePaymentModal({ id, idSec, maturity, currentMaturity, open,
     const currentDate = new Date(currentMaturity)
 
     if (date.getMonth() === currentDate.getMonth()) {
-      deletePayment(id, idSec, maturity)
+      deletePayment(id, idSec, idPayment, maturity, value, totalValue)
       toast({
         variant: "default",
         title: "Mensalidade excluido com sucesso.",
@@ -35,7 +53,7 @@ export function DeletePaymentModal({ id, idSec, maturity, currentMaturity, open,
       setOpen(prev => !prev)
     } else {
       toast({
-        variant: "destructive",
+        variant: "default",
         title: "Exclua se forma decrescente.",
         duration: 3000,
         className: 'border border-red-500 text-red-500'

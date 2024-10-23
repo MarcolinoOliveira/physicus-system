@@ -13,10 +13,12 @@ type AlertModalDeleteProps = {
   id: string
   idSec: string
   maturity: string
+  datePayment: string
   currentMaturity: string
+  value: string
 }
 
-export function SubMenuPayment({ id, idSec, maturity, currentMaturity }: AlertModalDeleteProps) {
+export function SubMenuPayment({ id, idSec, maturity, datePayment, currentMaturity, value }: AlertModalDeleteProps) {
   const [openChangePayment, setOpenChangePayment] = useState<boolean>(false)
   const [openDeleteAlert, setOpenDeleteAlert] = useState<boolean>(false)
 
@@ -39,12 +41,15 @@ export function SubMenuPayment({ id, idSec, maturity, currentMaturity }: AlertMo
         id={id}
         idSec={idSec}
         open={openChangePayment}
+        value={value}
         setOpen={setOpenChangePayment}
       />
       <DeletePaymentModal
         id={id}
         idSec={idSec}
         maturity={maturity}
+        datePayment={datePayment}
+        value={value}
         currentMaturity={currentMaturity}
         open={openDeleteAlert}
         setOpen={setOpenDeleteAlert}

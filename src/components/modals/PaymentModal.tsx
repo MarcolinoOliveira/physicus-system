@@ -10,6 +10,7 @@ import { useState } from "react"
 import MaskedCurrencyInput from "../masks/MaskCurrencyInput"
 import { Checkbox } from "../ui/checkbox"
 import { paymentProps } from "@/app/types/globalTypes"
+import useStudents from "@/hooks/useStudents"
 
 type PaymentCLient = {
   id: string
@@ -24,7 +25,9 @@ type paymentMethodProps = {
 
 export function PaymentClientModal({ id, maturity }: PaymentCLient) {
 
+  const { payments } = useStudents()
   const { toast } = useToast()
+
   const [student, setStudent] = useState<paymentProps>({
     value: '',
     datePayment: '',
@@ -52,7 +55,22 @@ export function PaymentClientModal({ id, maturity }: PaymentCLient) {
   }
 
   const addPayment = () => {
-    addPaymentUser(id, student, maturity)
+    const [year, month] = student.datePayment.split('-')
+    let totalValue = 0
+    let idMonth = ''
+
+    for (let i = 0; i < payments.length; i++) {
+      const [yearPayment, monthPayment] = payments[i].id?.split('-')
+
+      if (parseInt(year) === parseInt(yearPayment) && parseInt(month) === parseInt(monthPayment)) {
+        totalValue += (payments[i].totalValue)
+        idMonth = payments[i].id
+        break
+      }
+    }
+
+    addPaymentUser(id, idMonth, student, maturity, totalValue)
+
     toast({
       variant: "default",
       title: "Pagamento Adicionado com sucesso.",

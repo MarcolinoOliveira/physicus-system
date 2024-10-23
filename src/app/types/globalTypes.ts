@@ -8,6 +8,7 @@ export type userProps = {
 }
 
 export type paymentMonthsProps = {
+  id: string,
   datePayment: string,
   maturity: string,
   valuePayment: string
@@ -32,4 +33,10 @@ export type expenseProps = {
   name: string,
   value: string,
   date: string
+}
+
+export type totalPaymentsByMonths = {
+  id: string,
+  dateMonth: string,
+  totalValue: number
 }

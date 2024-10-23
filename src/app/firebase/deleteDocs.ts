@@ -9,18 +9,24 @@ export async function deleteUser(id: string) {
   }
 }
 
-export async function deletePayment(id: string, idSec: string, maturity: string) {
+export async function deletePayment(id: string, idSec: string, idPayment: string, maturity: string, value: string, totalValue: number) {
   if (id && idSec) {
     const docRef = doc(db, `Alunos/${id}/Meses`, idSec)
-    const monthRef = doc(db, 'Pagamentos', idSec)
+    const monthRef = doc(db, 'Pagamentos', idPayment)
     const ref = doc(db, 'Alunos', id)
+
+    const newTotalValue = totalValue - parseFloat(value?.replace(/R\$\s?|/g, '').replace(',', '.'))
 
     const payload = {
       maturity: maturity
     }
 
+    const payloadPayment = {
+      totalValue: newTotalValue
+    }
+
     await deleteDoc(docRef)
-    await deleteDoc(monthRef)
+    await updateDoc(monthRef, payloadPayment)
     await updateDoc(ref, payload)
   }
 }

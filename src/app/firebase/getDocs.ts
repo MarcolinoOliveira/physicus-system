@@ -1,7 +1,7 @@
 import { db } from "@/lib/firebase"
 import { collection, doc, DocumentData, onSnapshot, orderBy, query } from "firebase/firestore"
 import { Dispatch, SetStateAction } from "react"
-import { dataStudentPaymentProps, expenseProps, paymentMonthsProps, userProps } from "../types/globalTypes"
+import { dataStudentPaymentProps, expenseProps, userProps, totalPaymentsByMonths } from "../types/globalTypes"
 import { getDaysLate } from "@/lib/dateFormatter"
 
 type getDocsProps = {
@@ -9,7 +9,7 @@ type getDocsProps = {
 }
 
 type getMonthsPaymentProps = {
-  setPayments: Dispatch<SetStateAction<paymentMonthsProps[]>>
+  setPayments: Dispatch<SetStateAction<totalPaymentsByMonths[]>>
 }
 
 type getOnlyStudentProps = {
@@ -46,7 +46,7 @@ export async function getMonthsPayment({ setPayments }: getMonthsPaymentProps) {
   const ref = collection(db, 'Pagamentos')
 
   onSnapshot(query(ref), (snapshot) => {
-    const dataPayments = snapshot.docs.map((doc) => ({ ...doc.data() as paymentMonthsProps }))
+    const dataPayments = snapshot.docs.map((doc) => ({ ...doc.data() as totalPaymentsByMonths, id: doc.id }))
     setPayments(dataPayments)
   })
 }

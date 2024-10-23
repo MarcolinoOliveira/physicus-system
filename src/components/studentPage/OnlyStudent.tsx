@@ -37,7 +37,14 @@ export function OnlyStudent({ id }: OnlyStudentProps) {
             <div className="flex w-full items-center justify-between py-3 border-b">
               <p></p>
               <p className="font-semibold">{formatCurrentMonth(e.maturity)}</p>
-              <SubMenuPayment id={id} idSec={e.id} maturity={e.maturity} currentMaturity={student?.maturity} />
+              <SubMenuPayment
+                id={id}
+                idSec={e.id}
+                maturity={e.maturity}
+                datePayment={e.datePayment}
+                currentMaturity={student?.maturity}
+                value={e.valuePayment}
+              />
             </div>
             <div className="flex flex-col justify-start w-full gap-1 pt-4">
               <div className="flex justify-between">

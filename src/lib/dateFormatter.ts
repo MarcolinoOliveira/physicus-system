@@ -1,4 +1,4 @@
-import { expenseProps, paymentMonthsProps, userProps } from "@/app/types/globalTypes";
+import { expenseProps, totalPaymentsByMonths, userProps } from "@/app/types/globalTypes";
 
 
 export const dateFormatterPTBR = (date: Date, locale = 'pt-BR') => {
@@ -60,15 +60,15 @@ export const TotalRevenueEnterprise = (student: userProps[]) => {
   return total
 }
 
-export const filterPaymentByMonth = (payments: paymentMonthsProps[], date: string) => {
+export const filterPaymentByMonth = (payments: totalPaymentsByMonths[], date: string) => {
   const [year, month] = date?.split('-')
   let total = 0
 
   for (let i = 0; i < payments?.length; i++) {
-    const newDate = new Date(payments[i].datePayment)
+    const newDate = new Date(payments[i].dateMonth)
 
     if (newDate.getFullYear() === parseInt(year) && (newDate.getMonth() + 1) === parseInt(month)) {
-      total += parseFloat(payments[i].valuePayment.replace(/R\$\s?|/g, '').replace(',', '.'))
+      total += (payments[i].totalValue)
     }
   }
 
@@ -111,4 +111,10 @@ export const formatCurrentMonth = (currentMonth: string) => {
   const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
   return `${months[parseInt(month) - 1]} de ${year}`;
+}
+
+export const formatIdPaymentMonth = (date: string) => {
+  const [year, month] = date.split('-')
+
+  return `${year}-${month}`
 }

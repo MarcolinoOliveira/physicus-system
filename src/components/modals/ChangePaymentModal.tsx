@@ -10,12 +10,14 @@ import MaskedCurrencyInput from "../masks/MaskCurrencyInput"
 import { Checkbox } from "../ui/checkbox"
 import { paymentProps } from "@/app/types/globalTypes"
 import { updatePaymentManual } from "@/app/firebase/updateDocs"
+import useStudents from "@/hooks/useStudents"
 
 
 type PaymentCLient = {
   id: string
   idSec: string
   open: boolean
+  value: string
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
@@ -25,9 +27,10 @@ type paymentMethodProps = {
   cartao: boolean
 }
 
-export function ChangePaymentModal({ id, idSec, open, setOpen }: PaymentCLient) {
+export function ChangePaymentModal({ id, idSec, open, value, setOpen }: PaymentCLient) {
 
   const { toast } = useToast()
+  const { payments } = useStudents()
 
   const [student, setStudent] = useState<paymentProps>({
     value: '',
@@ -56,16 +59,39 @@ export function ChangePaymentModal({ id, idSec, open, setOpen }: PaymentCLient) 
   }
 
   const addPayment = () => {
-    updatePaymentManual(id, idSec, student)
-    toast({
-      variant: "default",
-      title: "Dados Alterados com sucesso.",
-      duration: 3000,
-      className: 'border border-green-500 text-green-500'
-    })
-    setStudent({ value: '', datePayment: '', paymentMethod: '' })
-    setPaymentMethod({ pix: false, dinheiro: false, cartao: false })
-    setOpen(prev => !prev)
+    const [year, month] = student.datePayment.split('-')
+    let totalValue = 0
+    let idMonth = ''
+
+    for (let i = 0; i < payments.length; i++) {
+      const [yearPayment, monthPayment] = payments[i].id?.split('-')
+
+      if (parseInt(year) === parseInt(yearPayment) && parseInt(month) === parseInt(monthPayment)) {
+        totalValue += (payments[i].totalValue)
+        idMonth = payments[i].id
+        break
+      }
+    }
+
+    if (`${year}-${month}` === idMonth) {
+      updatePaymentManual(id, idSec, student, totalValue, idMonth, value)
+      toast({
+        variant: "default",
+        title: "Dados Alterados com sucesso.",
+        duration: 3000,
+        className: 'border border-green-500 text-green-500'
+      })
+      setStudent({ value: '', datePayment: '', paymentMethod: '' })
+      setPaymentMethod({ pix: false, dinheiro: false, cartao: false })
+      setOpen(prev => !prev)
+    } else {
+      toast({
+        variant: "default",
+        title: "Não pode alterar para meses diferentes.",
+        duration: 3000,
+        className: 'border border-red-500 text-red-500'
+      })
+    }
   }
 
   const cancelarPayment = () => {

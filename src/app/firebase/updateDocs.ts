@@ -18,10 +18,13 @@ export async function updateUserManual(student: userProps) {
   }
 }
 
-export async function updatePaymentManual(id: string, idSec: string, student: paymentProps) {
-  if (id && idSec) {
+export async function updatePaymentManual(id: string, idSec: string, student: paymentProps, totalValue: number, idMonth: string, value: string) {
+  if (id && idSec && idMonth) {
     const docRef = doc(db, `Alunos/${id}/Meses`, idSec)
-    const monthsRef = doc(db, 'Pagamentos', idSec)
+    const monthsRef = doc(db, 'Pagamentos', idMonth)
+
+    const newTotalValue = totalValue + (parseFloat(value?.replace(/R\$\s?|/g, '').replace(',', '.'))) -
+      (parseFloat(student.value?.replace(/R\$\s?|/g, '').replace(',', '.')))
 
     const payload = {
       datePayment: student.datePayment,
@@ -29,8 +32,12 @@ export async function updatePaymentManual(id: string, idSec: string, student: pa
       paymentMethod: student.paymentMethod
     }
 
+    const payloadPayment = {
+      totalValue: newTotalValue
+    }
+
     await updateDoc(docRef, payload)
-    await updateDoc(monthsRef, payload)
+    await updateDoc(monthsRef, payloadPayment)
   }
 }
 

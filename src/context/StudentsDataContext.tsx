@@ -1,14 +1,14 @@
 'use client'
 
-import { expenseProps, paymentMonthsProps, userProps } from "@/app/types/globalTypes"
+import { expenseProps, paymentMonthsProps, totalPaymentsByMonths, userProps } from "@/app/types/globalTypes"
 import { createContext, Dispatch, ReactNode, SetStateAction, useState } from "react"
 
 type StudentsDataContextProps = {
   students: userProps[]
-  payments: paymentMonthsProps[]
+  payments: totalPaymentsByMonths[]
   expenses: expenseProps[]
   setStudents: Dispatch<SetStateAction<userProps[]>>
-  setPayments: Dispatch<SetStateAction<paymentMonthsProps[]>>
+  setPayments: Dispatch<SetStateAction<totalPaymentsByMonths[]>>
   setExpenses: Dispatch<SetStateAction<expenseProps[]>>
 }
 
@@ -16,7 +16,7 @@ const StudentsDataContext = createContext({} as StudentsDataContextProps)
 
 export const StudentsDataProvider = ({ children }: { children: ReactNode }) => {
   const [students, setStudents] = useState<userProps[]>([])
-  const [payments, setPayments] = useState<paymentMonthsProps[]>([])
+  const [payments, setPayments] = useState<totalPaymentsByMonths[]>([])
   const [expenses, setExpenses] = useState<expenseProps[]>([])
 
   return (
