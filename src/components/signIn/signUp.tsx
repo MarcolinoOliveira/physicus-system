@@ -80,7 +80,7 @@ export function SignUp({ open, setOpen }: SignUpProps) {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={handleSignUp} className="w-full">Registrar</Button>
+            <Button type="submit" onClick={() => handleSignUp()} className="w-full">Registrar</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
