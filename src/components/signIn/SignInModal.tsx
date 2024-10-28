@@ -14,7 +14,7 @@ type SignInProps = {
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export function SignIn({ open, setOpen }: SignInProps) {
+export function SignInModal({ open, setOpen }: SignInProps) {
 
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')

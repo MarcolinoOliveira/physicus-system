@@ -14,7 +14,7 @@ type SignUpProps = {
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export function SignUp({ open, setOpen }: SignUpProps) {
+export function SignUpModal({ open, setOpen }: SignUpProps) {
 
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')

@@ -4,8 +4,8 @@ import { UserRound } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { useState } from 'react';
 import { Button } from '../ui/button';
-import { SignIn } from '../signIn/SignIn';
-import { SignUp } from '../signIn/SignUp';
+import { SignInModal } from '../signIn/SignInModal';
+import { SignUpModal } from '../signIn/SignUpModal';
 
 export function SubMenuSignIn() {
 
@@ -27,8 +27,8 @@ export function SubMenuSignIn() {
           </Button>
         </PopoverContent>
       </Popover>
-      <SignIn open={openSignIn} setOpen={setOpenSignIn} />
-      <SignUp open={openSignUp} setOpen={setOpenSignUp} />
+      <SignInModal open={openSignIn} setOpen={setOpenSignIn} />
+      <SignUpModal open={openSignUp} setOpen={setOpenSignUp} />
     </div>
   )
 }

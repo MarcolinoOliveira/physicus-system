@@ -12,8 +12,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { SubMenuSignIn } from "./subMenus/SubMenuSignIn";
-import { SignIn } from "./signIn/SignIn";
-import { SignUp } from "./signIn/SignUp";
+import { SignInModal } from "./signIn/SignInModal";
+import { SignUpModal } from "./signIn/SignUpModal";
 
 
 export default function TopBar() {
@@ -54,8 +54,8 @@ export default function TopBar() {
             <div className="flex sm:hidden">
               <SubMenuSignIn />
             </div>
-            <SignIn open={openSignIn} setOpen={setOpenSignIn} />
-            <SignUp open={openSignUp} setOpen={setOpenSignUp} />
+            <SignInModal open={openSignIn} setOpen={setOpenSignIn} />
+            <SignUpModal open={openSignUp} setOpen={setOpenSignUp} />
           </>}
         {user &&
           <div className='flex items-center gap-2'>
