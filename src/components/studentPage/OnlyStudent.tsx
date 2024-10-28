@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { PaymentClientModal } from "../modals/PaymentModal"
 import { DocumentData } from "firebase/firestore"
 import { formatCurrentMonth } from "@/lib/dateFormatter"
-import { SubMenuPayment } from "../subMenuPayment"
+import { SubMenuPayment } from "../subMenus/SubMenuPayment"
 
 
 type OnlyStudentProps = {
@@ -27,13 +27,13 @@ export function OnlyStudent({ id }: OnlyStudentProps) {
   }, [])
 
   return (
-    <div className="flex flex-col max-w-7xl">
+    <div className="flex flex-col max-w-7xl mt-32 sm:mt-0 z-10">
       <div className="flex w-full items-center justify-center pb-10">
-        <p className="font-bold text-3xl">{student?.name}</p>
+        <p className="font-bold text-xl sm:text-3xl">{student?.name}</p>
       </div>
-      <div className="flex gap-3 overflow-y-auto flex-wrap h-[65vh]">
+      <div className="flex gap-3 sm:overflow-y-auto flex-wrap sm:h-[65vh]">
         {studentPayments?.map((e, key) => (
-          <div key={key} className="flex flex-col px-6 py-4 rounded-xl border border-slate-400 w-[307px] h-[225px]">
+          <div key={key} className="flex flex-col px-6 py-4 rounded-xl border border-slate-400 w-full sm:w-[307px] h-[225px]">
             <div className="flex w-full items-center justify-between py-3 border-b">
               <p></p>
               <p className="font-semibold">{formatCurrentMonth(e.maturity)}</p>
@@ -66,7 +66,7 @@ export function OnlyStudent({ id }: OnlyStudentProps) {
             </div>
           </div>
         ))}
-        <div className="flex flex-col px-6 py-4 rounded-xl border border-slate-400 w-[307px] h-[225px]">
+        <div className="flex flex-col px-6 py-4 rounded-xl border border-slate-400 w-full sm:w-[307px] h-[225px]">
           <div className="flex w-full items-center justify-center py-5 border-b">
             <p className="font-semibold">{formatCurrentMonth(student?.maturity)}</p>
           </div>

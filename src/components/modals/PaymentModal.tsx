@@ -75,6 +75,7 @@ export function PaymentClientModal({ id, maturity }: PaymentCLient) {
       variant: "default",
       title: "Pagamento Adicionado com sucesso.",
       duration: 3000,
+      className: 'border-2 border-green-500'
     })
     setStudent({ value: '', datePayment: '', paymentMethod: '' })
     setPaymentMethod({ pix: false, dinheiro: false, cartao: false })
@@ -90,31 +91,30 @@ export function PaymentClientModal({ id, maturity }: PaymentCLient) {
       <DialogTrigger asChild>
         <Button variant="default" className="w-full">Receber mensalidade</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[400px]">
+      <DialogContent className="w-80 sm:max-w-[350px]">
         <DialogHeader className="flex items-center justify-center">
           <DialogTitle>Receber Mensalidade</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-2 items-center gap-4">
-            <Label htmlFor="name" className="text-left font-semibold">
+          <div className="flex flex-col items-center gap-4">
+            <Label htmlFor="name" className="text-left w-full font-semibold">
               Valor da mensalidade
             </Label>
             <MaskedCurrencyInput value={student.value} onChange={(e) => setStudent({ ...student, value: e })} />
           </div>
-          <div className="grid grid-cols-2 items-center gap-4">
-            <Label htmlFor="username" className="text-left font-semibold">
+          <div className="flex flex-col items-center gap-4">
+            <Label htmlFor="username" className="text-left w-full font-semibold">
               Data do pagamento
             </Label>
             <Input
               id="date"
               className="col-span-3"
               type="Date"
-
               onChange={(e) => setStudent({ ...student, datePayment: e.target.value })}
             />
           </div>
           <div className="flex flex-col gap-4">
-            <Label htmlFor="username" className="text-left font-semibold">
+            <Label htmlFor="username" className="text-left w-full font-semibold">
               Forma de pagamento
             </Label>
             <div className="flex gap-6">
@@ -139,11 +139,11 @@ export function PaymentClientModal({ id, maturity }: PaymentCLient) {
             </div>
           </div>
         </div>
-        <DialogFooter className="flex gap-3">
+        <DialogFooter>
           <DialogClose>
             <div className="w-full flex gap-2">
-              <Button type="button" variant='outline' onClick={cancelarPayment}>Cancelar</Button>
-              <Button type="submit" onClick={() => addPayment()}>Salvar</Button>
+              <Button type="button" variant='outline' onClick={cancelarPayment} className="w-full">Cancelar</Button>
+              <Button type="submit" onClick={() => addPayment()} className="w-full">Salvar</Button>
             </div>
           </DialogClose>
         </DialogFooter>

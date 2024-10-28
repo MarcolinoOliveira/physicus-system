@@ -28,7 +28,7 @@ export function AddExpense() {
         variant: "default",
         title: 'Nome Inválido',
         duration: 3000,
-        className: 'border border-red-500 text-red-500'
+        className: 'border-2 border-red-500'
       })
     } else {
       addExpense(expense)
@@ -36,7 +36,7 @@ export function AddExpense() {
         variant: "default",
         title: "Cliente Adicionado com sucesso.",
         duration: 3000,
-        className: 'border border-green-500 text-green-500'
+        className: 'border-2 border-green-500'
       })
       setExpense({ id: '', name: '', value: '', date: '' })
     }
@@ -51,16 +51,16 @@ export function AddExpense() {
       <DialogTrigger asChild>
         <Button variant="outline" className="flex gap-1 font-semibold">
           <CirclePlus />
-          Nova Despesa
+          <p className="hidden lg:flex">Nova Despesa</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[400px]">
+      <DialogContent className="w-80 sm:w-[400px]">
         <DialogHeader className="flex items-center justify-center">
           <DialogTitle>Nova Despesa</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-2 items-center gap-4">
-            <Label htmlFor="name" className="text-left font-semibold">
+          <div className="flex flex-col items-center gap-4">
+            <Label htmlFor="name" className="text-left w-full font-semibold">
               Nome
             </Label>
             <Input
@@ -70,14 +70,14 @@ export function AddExpense() {
               className="col-span-3"
             />
           </div>
-          <div className="grid grid-cols-2 items-center gap-4">
-            <Label htmlFor="username" className="text-left font-semibold">
+          <div className="flex flex-col items-center gap-4">
+            <Label htmlFor="username" className="text-left w-full font-semibold">
               Valor
             </Label>
             <MaskedCurrencyInput value={expense.value} onChange={(e) => setExpense({ ...expense, value: e })} />
           </div>
-          <div className="grid grid-cols-2 items-center gap-4">
-            <Label htmlFor="username" className="text-left font-semibold">
+          <div className="flex flex-col items-center gap-4">
+            <Label htmlFor="username" className="text-left w-full font-semibold">
               Data
             </Label>
             <Input
@@ -88,10 +88,12 @@ export function AddExpense() {
             />
           </div>
         </div>
-        <DialogFooter className="gap-2">
+        <DialogFooter>
           <DialogClose>
-            <Button type="button" variant='outline' onClick={cancelarAddstudent} className="mr-2">Cancelar</Button>
-            <Button type="submit" onClick={() => addstudent()}>Salvar</Button>
+            <div className="flex gap-1 sm:gap-2">
+              <Button type="button" variant='outline' onClick={cancelarAddstudent} className="w-full">Cancelar</Button>
+              <Button type="submit" onClick={() => addstudent()} className="w-full">Salvar</Button>
+            </div>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

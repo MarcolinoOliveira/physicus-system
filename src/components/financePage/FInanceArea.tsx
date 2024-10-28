@@ -48,7 +48,7 @@ export function FinanceArea() {
   }, [currentMonth, expenses])
 
   return (
-    <div className="flex flex-col items-center gap-6 w-full">
+    <div className="flex flex-col items-center gap-6 w-full mt-32 sm:mt-0">
       <InfoArea
         currentMonth={currentMonth}
         handleNextMonth={handleNextMonth}

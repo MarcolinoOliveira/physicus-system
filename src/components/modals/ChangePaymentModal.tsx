@@ -79,7 +79,7 @@ export function ChangePaymentModal({ id, idSec, open, value, setOpen }: PaymentC
         variant: "default",
         title: "Dados Alterados com sucesso.",
         duration: 3000,
-        className: 'border border-green-500 text-green-500'
+        className: 'border-2 border-green-500'
       })
       setStudent({ value: '', datePayment: '', paymentMethod: '' })
       setPaymentMethod({ pix: false, dinheiro: false, cartao: false })
@@ -89,7 +89,7 @@ export function ChangePaymentModal({ id, idSec, open, value, setOpen }: PaymentC
         variant: "default",
         title: "Não pode alterar para meses diferentes.",
         duration: 3000,
-        className: 'border border-red-500 text-red-500'
+        className: 'border-2 border-red-500'
       })
     }
   }
@@ -102,19 +102,19 @@ export function ChangePaymentModal({ id, idSec, open, value, setOpen }: PaymentC
 
   return (
     <Dialog open={open} onOpenChange={() => setOpen(prev => !prev)}>
-      <DialogContent className="sm:max-w-[400px]">
+      <DialogContent className="w-80 sm:w-[400px]">
         <DialogHeader className="flex items-center justify-center">
           <DialogTitle>Alterar mensalidade</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-2 items-center gap-4">
-            <Label htmlFor="name" className="text-left font-semibold">
+        <div className="flex flex-col gap-4 py-4">
+          <div className="flex flex-col gap-4">
+            <Label htmlFor="name" className="text-left w-full font-semibold">
               Valor da mensalidade
             </Label>
             <MaskedCurrencyInput value={student.value} onChange={(e) => setStudent({ ...student, value: e })} />
           </div>
-          <div className="grid grid-cols-2 items-center gap-4">
-            <Label htmlFor="username" className="text-left font-semibold">
+          <div className="flex flex-col items-start gap-4">
+            <Label htmlFor="username" className="text-left w-full font-semibold">
               Data do pagamento
             </Label>
             <Input
@@ -125,7 +125,7 @@ export function ChangePaymentModal({ id, idSec, open, value, setOpen }: PaymentC
             />
           </div>
           <div className="flex flex-col gap-4">
-            <Label htmlFor="username" className="text-left font-semibold">
+            <Label htmlFor="username" className="text-left w-full font-semibold">
               Forma de pagamento
             </Label>
             <div className="flex gap-6">
@@ -150,9 +150,11 @@ export function ChangePaymentModal({ id, idSec, open, value, setOpen }: PaymentC
             </div>
           </div>
         </div>
-        <DialogFooter className="flex gap-2 justify-end">
-          <Button type="button" variant='outline' onClick={cancelarPayment}>Cancelar</Button>
-          <Button type="submit" onClick={() => addPayment()}>Salvar</Button>
+        <DialogFooter>
+          <div className="flex w-full gap-2">
+            <Button type="button" variant='outline' onClick={cancelarPayment} className="w-full">Cancelar</Button>
+            <Button type="submit" onClick={() => addPayment()} className="w-full">Salvar</Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

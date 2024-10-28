@@ -1,18 +1,23 @@
 'use client'
 
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { Button } from "../ui/button"
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { auth } from "@/lib/firebase"
 import { toast } from "@/hooks/use-toast"
 
-export function SignUp() {
+type SignUpProps = {
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+}
+
+export function SignUp({ open, setOpen }: SignUpProps) {
+
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const [open, setOpen] = useState<boolean>(false)
 
   const [CreateUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth)
 
@@ -24,7 +29,7 @@ export function SignUp() {
           variant: "default",
           title: 'Conta criada com sucesso',
           duration: 3000,
-          className: 'border border-green-500 text-green-500'
+          className: 'border-2 border-green-500'
         })
         setEmail('')
         setPassword('')
@@ -34,7 +39,7 @@ export function SignUp() {
           variant: "default",
           title: 'Requisitos invalidos',
           duration: 3000,
-          className: 'border border-red-500 text-red-500'
+          className: 'border-2 border-red-500'
         })
       }
     } catch (e) {
@@ -45,10 +50,7 @@ export function SignUp() {
   return (
     <div>
       <Dialog open={open} onOpenChange={() => setOpen(prev => !prev)}>
-        <Button variant="link" className="flex gap-1 font-semibold" onClick={() => setOpen(prev => !prev)}>
-          <p className="text-card-foreground">Registar</p>
-        </Button>
-        <DialogContent className="sm:max-w-[350px]">
+        <DialogContent className="w-80 sm:max-w-[350px]">
           <DialogHeader className="flex items-center justify-center">
             <DialogTitle>Cadastrar-se</DialogTitle>
           </DialogHeader>

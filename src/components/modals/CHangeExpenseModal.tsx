@@ -1,7 +1,7 @@
 'use client'
 
 import { expenseProps } from "@/app/types/globalTypes"
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
 import { Button } from "../ui/button"
 import { Label } from "../ui/label"
@@ -13,12 +13,13 @@ import { PencilLine } from 'lucide-react';
 
 type ChangeExpenseModalProps = {
   expense: expenseProps
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export function ChangeExpenseModal({ expense }: ChangeExpenseModalProps) {
+export function ChangeExpenseModal({ expense, open, setOpen }: ChangeExpenseModalProps) {
   const { toast } = useToast()
 
-  const [open, setOpen] = useState<boolean>(false)
   const [changeExpense, setChangeExpense] = useState<expenseProps>({
     id: expense.id,
     name: expense.name,
@@ -32,7 +33,7 @@ export function ChangeExpenseModal({ expense }: ChangeExpenseModalProps) {
         variant: "default",
         title: "Nome inválido.",
         duration: 3000,
-        className: 'border border-red-500 text-red-500'
+        className: 'border-2 border-red-500'
       })
     } else {
       updateExpense(changeExpense)
@@ -40,7 +41,7 @@ export function ChangeExpenseModal({ expense }: ChangeExpenseModalProps) {
         variant: "default",
         title: "Alterações feitas com sucesso.",
         duration: 3000,
-        className: 'border border-green-500 text-green-500'
+        className: 'border-2 border-green-500'
       })
       setOpen(prev => !prev)
     }
@@ -48,17 +49,14 @@ export function ChangeExpenseModal({ expense }: ChangeExpenseModalProps) {
 
   return (
     <div>
-      <Button variant='ghost' size='icon' onClick={() => setOpen(prev => !prev)}>
-        <PencilLine className="w-7 h-7" />
-      </Button>
       <Dialog open={open} onOpenChange={() => setOpen(prev => !prev)}>
-        <DialogContent className="sm:max-w-[400px]">
+        <DialogContent className="w-80 sm:w-[400px]">
           <DialogHeader className="flex justify-center items-center">
             <DialogTitle>Alterar Despesa</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-2 items-center gap-4">
-              <Label htmlFor="name" className="text-left font-semibold">
+            <div className="flex flex-col items-center gap-4">
+              <Label htmlFor="name" className="text-left w-full font-semibold">
                 Título
               </Label>
               <Input
@@ -69,14 +67,14 @@ export function ChangeExpenseModal({ expense }: ChangeExpenseModalProps) {
                 className="col-span-3"
               />
             </div>
-            <div className="grid grid-cols-2 items-center gap-4">
-              <Label htmlFor="username" className="text-left font-semibold">
+            <div className="flex flex-col items-center gap-4">
+              <Label htmlFor="username" className="text-left w-full font-semibold">
                 Valor
               </Label>
               <MaskedCurrencyInput value={changeExpense.value} onChange={(e) => setChangeExpense({ ...changeExpense, value: e })} />
             </div>
-            <div className="grid grid-cols-2 items-center gap-4">
-              <Label htmlFor="username" className="text-left font-semibold">
+            <div className="flex flex-col items-center gap-4">
+              <Label htmlFor="username" className="text-left w-full font-semibold">
                 Data
               </Label>
               <Input
@@ -88,9 +86,11 @@ export function ChangeExpenseModal({ expense }: ChangeExpenseModalProps) {
               />
             </div>
           </div>
-          <DialogFooter className="gap-2">
-            <Button type="button" variant='outline' onClick={() => setOpen(prev => !prev)} className="mr-2">Cancelar</Button>
-            <Button type="submit" onClick={() => changeData()}>Salvar</Button>
+          <DialogFooter>
+            <div className="flex gap-1 sm:gap-2">
+              <Button type="button" variant='outline' onClick={() => setOpen(prev => !prev)} className="w-full">Cancelar</Button>
+              <Button type="submit" onClick={() => changeData()} className="w-full">Salvar</Button>
+            </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>

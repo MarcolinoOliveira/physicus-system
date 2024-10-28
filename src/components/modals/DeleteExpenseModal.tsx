@@ -3,14 +3,15 @@
 import { deleteExpense } from "@/app/firebase/deleteDocs"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
-import { SquareX } from 'lucide-react';
-import { Button } from "../ui/button";
+import { Dispatch, SetStateAction } from "react";
 
 type AlertModalDeleteProps = {
   id: string
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export function DeleteExpenseModal({ id }: AlertModalDeleteProps) {
+export function DeleteExpenseModal({ id, open, setOpen }: AlertModalDeleteProps) {
   const { toast } = useToast()
 
   const handleDelete = () => {
@@ -19,17 +20,12 @@ export function DeleteExpenseModal({ id }: AlertModalDeleteProps) {
       variant: "default",
       title: "Despesa excluida com sucesso.",
       duration: 3000,
-      className: 'border border-green-500 text-green-500'
+      className: 'border-2 border-green-500'
     })
   }
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button size='icon' variant='ghost'>
-          <SquareX className="text-red-500 w-7 h-7" />
-        </Button>
-      </AlertDialogTrigger>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
@@ -39,8 +35,10 @@ export function DeleteExpenseModal({ id }: AlertModalDeleteProps) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} >Continue</AlertDialogAction>
+          <div className="flex gap-2 items-center w-full">
+            <AlertDialogCancel className="w-full">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} className="w-full mt-2 sm:mt-0">Continue</AlertDialogAction>
+          </div>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

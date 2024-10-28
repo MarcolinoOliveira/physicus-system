@@ -1,8 +1,6 @@
 'use client'
 
 import { getListExpense, getMonthsPayment, getStudents } from "@/app/firebase/getDocs";
-import { SignIn } from "@/components/signIn/SignIn";
-import { SignUp } from "@/components/signIn/signUp";
 import { ToggleTheme } from "@/components/ToggleTheme";
 import { Button } from "@/components/ui/button";
 import useStudents from "@/hooks/useStudents";
@@ -11,10 +9,17 @@ import { signOut } from "firebase/auth";
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { SubMenuSignIn } from "./subMenus/SubMenuSignIn";
+import { SignIn } from "./signIn/SignIn";
+import { SignUp } from "./signIn/SignUp";
+
 
 export default function TopBar() {
+
+  const [openSignIn, setOpenSignIn] = useState<boolean>(false)
+  const [openSignUp, setOpenSignUp] = useState<boolean>(false)
 
   const { setStudents, setPayments, setExpenses } = useStudents()
   const router = useRouter()
@@ -32,21 +37,29 @@ export default function TopBar() {
   }, [])
 
   return (
-    <div className="flex max-w-7xl mx-auto justify-between h-auto py-5">
-      <div className="flex w-1/6 justify-start items-center">
+    <div className="flex w-full md:max-w-7xl md:mx-auto justify-between h-auto py-5 px-2 fixed sm:relative z-50 bg-background">
+      <div className="flex w-2/4 justify-start items-center ml-4 sm:ml-0">
         <Link href='/'>
           <Image src='/logo.png' alt="logo" width={200} height={200} quality={100} />
         </Link>
       </div>
-      <div className="flex flex-1 justify-end items-center gap-2">
+      <div className="flex flex-1 justify-end items-center gap-1 sm:gap-2">
         {!user &&
-          <div className="flex items-center">
-            <SignIn /> /
-            <SignUp />
-          </div>}
+          <>
+            <div className="hidden sm:flex items-center">
+              <Button variant='link' onClick={() => setOpenSignIn(prev => !prev)} className="text-accent-foreground">Entrar</Button>
+              /
+              <Button variant='link' onClick={() => setOpenSignUp(prev => !prev)} className="text-accent-foreground">Registrar</Button>
+            </div>
+            <div className="flex sm:hidden">
+              <SubMenuSignIn />
+            </div>
+            <SignIn open={openSignIn} setOpen={setOpenSignIn} />
+            <SignUp open={openSignUp} setOpen={setOpenSignUp} />
+          </>}
         {user &&
           <div className='flex items-center gap-2'>
-            <p>{user.email}</p>
+            <p className="hidden sm:block">{user.email}</p>
             <Button variant='outline' onClick={handleLogout}>
               Sair
             </Button>

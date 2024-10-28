@@ -1,12 +1,11 @@
 "use client"
 
-import { EllipsisVertical } from 'lucide-react';
 import { Button } from "@/components/ui/button"
-import { ChangePaymentModal } from './modals/ChangePaymentModal';
-import { DeletePaymentModal } from './modals/DeletePaymentModal';
+import { ChangePaymentModal } from '../modals/ChangePaymentModal';
+import { DeletePaymentModal } from '../modals/DeletePaymentModal';
 import { useState } from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { PencilLine, SquareX } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { PencilLine, SquareX, EllipsisVertical } from 'lucide-react';
 
 
 type AlertModalDeleteProps = {

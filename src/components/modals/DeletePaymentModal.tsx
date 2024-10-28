@@ -1,7 +1,7 @@
 'use client'
 
 import { deletePayment } from "@/app/firebase/deleteDocs"
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
 import useStudents from "@/hooks/useStudents";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -48,7 +48,7 @@ export function DeletePaymentModal({ id, idSec, maturity, datePayment, value, cu
         variant: "default",
         title: "Mensalidade excluido com sucesso.",
         duration: 3000,
-        className: 'border border-green-500 text-green-500'
+        className: 'border-2 border-green-500'
       })
       setOpen(prev => !prev)
     } else {
@@ -56,7 +56,7 @@ export function DeletePaymentModal({ id, idSec, maturity, datePayment, value, cu
         variant: "default",
         title: "Exclua se forma decrescente.",
         duration: 3000,
-        className: 'border border-red-500 text-red-500'
+        className: 'border-2 border-red-500'
       })
       setOpen(prev => !prev)
     }
@@ -73,8 +73,10 @@ export function DeletePaymentModal({ id, idSec, maturity, datePayment, value, cu
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeleteUser} >Continue</AlertDialogAction>
+          <div className="flex gap-2 items-center w-full">
+            <AlertDialogCancel className="w-full">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteUser} className="w-full mt-2 sm:mt-0">Continue</AlertDialogAction>
+          </div>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
