@@ -11,7 +11,8 @@ export async function addUser(student: userProps) {
       name: student.name,
       telephone: student.telephone,
       maturity: student.maturity,
-      monthly: student.monthly
+      monthly: student.monthly,
+      status: 'Ativado'
     }
     await addDoc(docRef, payload)
   }

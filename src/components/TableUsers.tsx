@@ -14,6 +14,7 @@ import { CircleDollarSign } from 'lucide-react';
 import { toast } from "@/hooks/use-toast"
 import useStudents from "@/hooks/useStudents"
 import { SubMenuUser } from "./subMenus/SubMenuUser"
+import { updateStatus } from "@/app/firebase/updateDocs"
 
 
 type rowListUsersProps = {
@@ -47,6 +48,7 @@ export default function TableUsers() {
       })
     }
   }
+
 
   const rowListUsers = ({ index, style }: rowListUsersProps) => {
 

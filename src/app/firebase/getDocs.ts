@@ -1,8 +1,9 @@
 import { db } from "@/lib/firebase"
-import { collection, doc, DocumentData, onSnapshot, orderBy, query } from "firebase/firestore"
+import { collection, doc, DocumentData, getDocs, onSnapshot, orderBy, query } from "firebase/firestore"
 import { Dispatch, SetStateAction } from "react"
 import { dataStudentPaymentProps, expenseProps, userProps, totalPaymentsByMonths } from "../types/globalTypes"
 import { getDaysLate } from "@/lib/dateFormatter"
+import { updateStatus } from "./updateDocs"
 
 type getDocsProps = {
   setStudents: Dispatch<SetStateAction<userProps[]>>
@@ -26,17 +27,19 @@ type getOnlyStudentPaymentsProps = {
 export async function getStudents({ setStudents }: getDocsProps) {
   const ref = collection(db, 'Alunos')
 
+  // const data = await getDocs(ref)
+  // setStudents(data.docs.map((doc) => ({ ...doc.data() as userProps, id: doc.id })))
+
   onSnapshot(query(ref, orderBy('name')), (snapshot) => {
     const dataStudents = snapshot.docs.map((doc) => {
       const { name, maturity, monthly, telephone } = doc.data() as userProps
 
       const newDaysLater = getDaysLate(maturity)
-      const newStatus = newDaysLater <= 0 ? 'OK' : 'Vencido'
+      const status = newDaysLater <= 0 ? 'OK' : 'Vencido'
 
       const id = doc.id
-      const status = newStatus
-      return { id, name, maturity, monthly, telephone, status }
 
+      return { id, name, maturity, monthly, telephone, status }
     })
     setStudents(dataStudents)
   })

@@ -54,3 +54,16 @@ export async function updateExpense(expense: expenseProps) {
     await updateDoc(docRef, payload)
   }
 }
+
+export async function updateStatus(id: string) {
+  if (id) {
+
+    const ref = doc(db, 'Alunos', id)
+
+    const payload = {
+      status: 'Ativado'
+    }
+
+    await updateDoc(ref, payload)
+  }
+}
