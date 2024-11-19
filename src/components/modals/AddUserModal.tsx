@@ -26,10 +26,19 @@ export function AddClient() {
   })
 
   const addstudent = async () => {
+    const [year, month, day] = student.maturity?.split('-')
     if (student.name === '') {
       toast({
         variant: "default",
         title: 'Nome Inválido',
+        duration: 3000,
+        className: 'border-2 border-red-500'
+      })
+    } else if (parseInt(day) > 28) {
+      toast({
+        variant: "default",
+        title: "Vencimento invalido.",
+        description: "Informe um dia até dia 28",
         duration: 3000,
         className: 'border-2 border-red-500'
       })

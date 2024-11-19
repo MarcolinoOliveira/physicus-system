@@ -1,40 +1,37 @@
 'use client'
 
-import { userProps } from "@/app/types/globalTypes"
+import { activeStudentProps, userProps } from "@/app/types/globalTypes"
 import { Dispatch, SetStateAction, useState } from "react"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
 import { Button } from "../ui/button"
 import { Label } from "../ui/label"
 import { Input } from "../ui/input"
-import { updateUserManual } from "@/app/firebase/updateDocs"
 import { useToast } from "@/hooks/use-toast"
 import MaskedCurrencyInput from "../masks/MaskCurrencyInput"
-import MaskedTelephoneInput from "../masks/MaskTelephoneInput"
+import { activeStudentUpdate } from "@/app/firebase/updateDocs"
 
-type changeUserDataProps = {
+type ActiveStudentModalProps = {
   student: userProps
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export function ChangeUserData({ student, open, setOpen }: changeUserDataProps) {
+export function ActiveStudentModal({ student, open, setOpen }: ActiveStudentModalProps) {
   const { toast } = useToast()
 
-  const [changeUser, setChangeUser] = useState<userProps>({
+  const [activeStudent, setActiveStudent] = useState<activeStudentProps>({
     id: student.id,
-    name: student.name,
     maturity: student.maturity,
     monthly: student.monthly,
-    status: student.status,
-    telephone: student.telephone
   })
 
   const changeData = () => {
-    const [year, month, day] = changeUser.maturity?.split('-')
-    if (changeUser?.name === '') {
+    const [year, month, day] = activeStudent.maturity?.split('-')
+
+    if (activeStudent?.monthly === '') {
       toast({
         variant: "default",
-        title: "Nome inválido.",
+        title: "Valor inválido.",
         duration: 3000,
         className: 'border-2 border-red-500'
       })
@@ -47,10 +44,10 @@ export function ChangeUserData({ student, open, setOpen }: changeUserDataProps) 
         className: 'border-2 border-red-500'
       })
     } else {
-      updateUserManual(changeUser)
+      activeStudentUpdate(activeStudent)
       toast({
         variant: "default",
-        title: "Alterações feitas com sucesso.",
+        title: "Aluno ativado com sucesso.",
         duration: 3000,
         className: 'border-2 border-green-500'
       })
@@ -66,28 +63,10 @@ export function ChangeUserData({ student, open, setOpen }: changeUserDataProps) 
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="flex flex-col items-center gap-4">
-            <Label htmlFor="name" className="text-left w-full font-semibold">
-              Nome Completo
-            </Label>
-            <Input
-              id="name"
-              type="string"
-              defaultValue={student.name}
-              onChange={(e) => setChangeUser({ ...changeUser, name: e.target.value })}
-              className="col-span-3"
-            />
-          </div>
-          <div className="flex flex-col items-center gap-4">
-            <Label htmlFor="username" className="text-left w-full font-semibold">
-              Número do Celular
-            </Label>
-            <MaskedTelephoneInput value={changeUser.telephone} onChange={(e) => setChangeUser({ ...student, telephone: e })} />
-          </div>
-          <div className="flex flex-col items-center gap-4">
             <Label htmlFor="username" className="text-left w-full font-semibold">
               Mensalidade
             </Label>
-            <MaskedCurrencyInput value={changeUser.monthly} onChange={(e) => setChangeUser({ ...student, monthly: e })} />
+            <MaskedCurrencyInput value={activeStudent.monthly} onChange={(e) => setActiveStudent({ ...student, monthly: e })} />
           </div>
           <div className="flex flex-col items-center gap-4">
             <Label htmlFor="username" className="text-left w-full font-semibold">
@@ -97,7 +76,7 @@ export function ChangeUserData({ student, open, setOpen }: changeUserDataProps) 
               id="data"
               type="Date"
               defaultValue={student.maturity}
-              onChange={(e) => setChangeUser({ ...changeUser, maturity: e.target.value })}
+              onChange={(e) => setActiveStudent({ ...activeStudent, maturity: e.target.value })}
               className="col-span-3"
             />
           </div>

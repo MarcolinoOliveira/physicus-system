@@ -1,6 +1,6 @@
 import { db } from "@/lib/firebase";
 import { doc, updateDoc } from "firebase/firestore";
-import { expenseProps, paymentProps, userProps } from "../types/globalTypes";
+import { activeStudentProps, expenseProps, paymentProps, userProps } from "../types/globalTypes";
 
 
 export async function updateUserManual(student: userProps) {
@@ -55,13 +55,26 @@ export async function updateExpense(expense: expenseProps) {
   }
 }
 
-export async function updateStatus(id: string) {
-  if (id) {
+export async function activeStudentUpdate(student: activeStudentProps) {
+  if (student.id) {
+    const ref = doc(db, 'Alunos', student.id)
 
+    const payload = {
+      status: 'Ativado',
+      maturity: student.maturity,
+      monthly: student.monthly
+    }
+
+    await updateDoc(ref, payload)
+  }
+}
+
+export async function desableStudentUpdate(id: string) {
+  if (id) {
     const ref = doc(db, 'Alunos', id)
 
     const payload = {
-      status: 'Ativado'
+      status: 'Desativado'
     }
 
     await updateDoc(ref, payload)

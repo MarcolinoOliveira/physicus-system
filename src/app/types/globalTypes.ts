@@ -40,3 +40,9 @@ export type totalPaymentsByMonths = {
   dateMonth: string,
   totalValue: number
 }
+
+export type activeStudentProps = {
+  id: string
+  monthly: string
+  maturity: string
+}

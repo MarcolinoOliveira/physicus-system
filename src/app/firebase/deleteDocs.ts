@@ -1,11 +1,29 @@
 import { db } from "@/lib/firebase";
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
+import { Dispatch, SetStateAction } from "react";
 
-export async function deleteUser(id: string) {
+type deleteUserProps = {
+  id: string
+  setSpin: Dispatch<SetStateAction<boolean>>
+}
+
+export async function deleteUser({ id, setSpin }: deleteUserProps) {
   if (id) {
     const ref = doc(db, 'Alunos', id)
+    const refMonth = collection(db, `Alunos/${id}/Meses`)
+
+    const data = await getDocs(refMonth)
+    const res = data.docs.map((doc) => ({ id: doc.id }))
+
+    if (res[0]?.id) {
+      res.map(async (e) => {
+        const ref = doc(db, `Alunos/${id}/Meses`, e.id)
+        await deleteDoc(ref)
+      })
+    }
 
     await deleteDoc(ref)
+    setSpin(prev => !prev)
   }
 }
 
